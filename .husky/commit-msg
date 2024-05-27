@@ -1,0 +1,12 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "🎉 Checking commit message format"
+# bootstrap to commitlint
+npx --no -- commitlint --edit "$1"
+echo "🎉 Preparing commit message"
+# grab branch name
+NAME=$(git branch | grep '*' | sed 's/* //') 
+
+# prepend branch name to commit message
+echo "[$NAME]"' '$(cat "$1") > "$1"
